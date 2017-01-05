@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#0000FF"
+        android:text="Green"
+        android:textColor="#000000"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/one"
+        android:layout_margin="10dp"
+        />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#00FF00"
+        android:text="Red"
+        android:textColor="#FF0000"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/two"
+        android:layout_below="@id/one"
+        android:layout_margin="10dp"
+        />
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#FF0000"
+        android:text="Black"
+        android:textColor="#0000FF"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:id="@+id/three"
+        android:layout_below="@id/one"
+        android:layout_toEndOf="@id/two"
+        android:layout_margin="10dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/three"
+        android:layout_alignRight="@id/three"
+        android:layout_alignLeft="@id/one"
+        android:text="Button!"
+        android:textSize="32sp"
+        />
+
+</RelativeLayout>

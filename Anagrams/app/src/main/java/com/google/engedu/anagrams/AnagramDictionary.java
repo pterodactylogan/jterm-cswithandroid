@@ -54,10 +54,11 @@ public class AnagramDictionary {
             wordSet.add(line);
             String key = sortWord(line);
             if(lettersToWord.get(key) == null ){
-                ArrayList,
-                lettersToWord.put(key, );
+                ArrayList<String> list = new ArrayList<String>();
+                list.add(line);
+                lettersToWord.put(key, list);
             }else{
-                lettersToWord.put(key, line);
+                lettersToWord.get(key).add(line);
             }
         }
         //Log.d("stuff", wordList.toString());
