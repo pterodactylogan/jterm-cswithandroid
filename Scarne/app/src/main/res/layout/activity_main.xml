@@ -38,6 +38,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:text="ROLL"
+            android:id="@+id/roll"
             android:onClick="Roll"
             android:textSize="18sp"
             android:background="#00FF00"/>
@@ -47,6 +48,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:text="HOLD"
+            android:id="@+id/hold"
             android:onClick="Hold"
             android:textSize="18sp"
             android:background="#FF0000"/>
@@ -56,8 +58,10 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:text="RESET"
+            android:id="@+id/reset"
             android:onClick="Reset"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:background="#bdbdbd"/>
 
     </LinearLayout>
 
