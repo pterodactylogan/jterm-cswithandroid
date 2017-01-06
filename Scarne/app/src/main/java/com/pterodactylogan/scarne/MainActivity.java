@@ -15,7 +15,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Random;
-import java.util.logging.Handler;
+import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,27 +32,36 @@ public class MainActivity extends AppCompatActivity {
     private GoogleApiClient client;
 
     public void Reset(View view) {
+        Reset();
+    }
+
+    public void Reset() {
         userTurnScore = 0;
         userOverallScore = 0;
         compOverallScore = 0;
         compTurnScore = 0;
         currRoll = 0;
+        comp=false;
+        handler.removeCallbacks(compTurn);
         scoreDisplay("your");
     }
 
     public void scoreDisplay(String player) {
         String display = "Your score: " + userOverallScore + " Computer score: " + compOverallScore;
+        display += "\n\nIt is " + player + " turn!";
         if (userTurnScore != 0) {
             display += " Turn score: " + userTurnScore;
         } else if (compTurnScore != 0) {
             display += " Turn score: " + compTurnScore;
         }
-        display += "It is " + player + " turn!"
         TextView scoreText = (TextView) findViewById(R.id.scoreText);
         scoreText.setText(display);
     }
 
     public void Roll(View veiw) {
+        //do nothing if its the computers turn
+        if(comp==true) return;
+
         //Log.d("roll test", "rolled");
         RollDisplay();
         if (currRoll == 1) {
@@ -66,12 +75,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Hold(View view) {
+        //do nothing if its the computers turn
+        if(comp==true) return;
+
         userOverallScore += userTurnScore;
+        //if user has won
+        if(userOverallScore>=100){
+            String display = "Your score: " + userOverallScore + " Computer score: " + compOverallScore;
+            display+="\n\nYou Win! Press Reset to play again";
+            TextView scoreText = (TextView) findViewById(R.id.scoreText);
+            scoreText.setText(display);
+            comp=true;
+            return;
+        }
         userTurnScore = 0;
         scoreDisplay("the computer's");
         computerTurn();
     }
 
+    //this function sets currRoll to a num btwn 1-6 and changes the image accordingly
     public void RollDisplay() {
         currRoll = rand.nextInt(6) + 1;
         if (currRoll == 1) {
@@ -95,26 +117,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    final Handler handler = new Handler();
+    private final Handler handler = new Handler();
+    boolean comp = false;
 
     public void computerTurn() {
-        //disable buttons
-        Button hold = (Button) findViewById(hold);
-        hold.setEnabled(false);
-        Button roll = (Button) findViewById(roll);
-        roll.setEnabled(false);
-        Button reset = (Button) findViewById(reset);
-        reset.setEnabled(false);
+        //it is the computers turn
+        comp = true;
 
-        compTurn.run();
+        //delays call of compTurn.run() by 1 second (to see 1 on screen so user knows what happened)
+        handler.postDelayed(compTurn, 1000);
 
-        //enable buttons
-        Button hold = (Button) findViewById(hold);
-        hold.setEnabled(true);
-        Button roll = (Button) findViewById(roll);
-        roll.setEnabled(true);
-        Button reset = (Button) findViewById(reset);
-        reset.setEnabled(true);
+        comp=false;
         return;
 
     }
@@ -125,23 +138,35 @@ public class MainActivity extends AppCompatActivity {
             //hold if score is 20 or over
             if (compTurnScore >= 20) {
                 compOverallScore += compTurnScore;
+                //if computer has won
+                if(compOverallScore>=100){
+                    String display = "Your score: " + userOverallScore + " Computer score: " + compOverallScore;
+                    display+="\n\nThe computer wins :( Press Reset to play again";
+                    TextView scoreText = (TextView) findViewById(R.id.scoreText);
+                    scoreText.setText(display);
+                    comp=true;
+                    return;
+                }
                 compTurnScore = 0;
                 scoreDisplay("your");
                 return;
             } else {
+                //roll the die
                 RollDisplay();
                 if (currRoll == 1) {
                     compTurnScore = 0;
+                    //players turn
                     scoreDisplay("your");
                     return;
                 } else {
                     compTurnScore += currRoll;
                     scoreDisplay("the computer's");
+                    //keep rolling
                     handler.postDelayed(this, 1000);
                 }
             }
         }
-    }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
