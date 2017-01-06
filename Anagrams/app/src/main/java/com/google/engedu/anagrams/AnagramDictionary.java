@@ -45,6 +45,14 @@ public class AnagramDictionary {
     private ArrayList<String> wordList = new ArrayList<String>();
     private HashSet<String> wordSet = new HashSet<>();
 
+    @VisibleForTesting
+    public AnagramDictionary(String[] words) {
+        Log.d("Testing constructor", "reading test dictionary");
+        for (int i = 0; i < words.length; i++) {
+            wordList.add(words[i]);
+        }
+    }
+
     public AnagramDictionary(InputStream wordListStream) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(wordListStream));
         String line;
