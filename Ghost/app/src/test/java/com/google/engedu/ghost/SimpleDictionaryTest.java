@@ -26,10 +26,12 @@ import java.util.Arrays;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleDictionaryTest {
+    String[] wordsArray = {"apple", "bear", "bug", "cat","catheter","cathy", "dog"};
 
     @Test
     public void testIsWord() {
@@ -37,5 +39,12 @@ public class SimpleDictionaryTest {
 
     @Test
     public void testGetAnyWordStartingWith() {
+        ArrayList<String> words = new ArrayList<>(Arrays.asList(wordsArray));
+        SimpleDictionary dict = new SimpleDictionary(words, 0);
+        assertEquals("apple", dict.getAnyWordStartingWith("a"));
+        assertNotEquals("apple", dict.getAnyWordStartingWith("c"));
+        assertTrue(dict.getAnyWordStartingWith("ca").startsWith("ca"));
+        assertEquals(dict.getAnyWordStartingWith("bug"), "bug");
+        assertNotNull(dict.getAnyWordStartingWith(""));
     }
 }

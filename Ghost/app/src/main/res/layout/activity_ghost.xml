@@ -47,6 +47,21 @@
             android:layout_below="@id/ghostText"
             android:layout_alignParentStart="true"
             />
+        
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/gameStatus"
+            android:id="@+id/challenge"
+            android:text="challegnge"/>
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/gameStatus"
+            android:layout_toRightOf="@id/challenge"
+            android:text="Restart"/>
+
 
     </RelativeLayout>
 
