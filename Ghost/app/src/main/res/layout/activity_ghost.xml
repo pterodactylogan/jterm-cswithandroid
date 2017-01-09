@@ -53,14 +53,16 @@
             android:layout_height="50dp"
             android:layout_below="@id/gameStatus"
             android:id="@+id/challenge"
-            android:text="challegnge"/>
+            android:text="@string/challenge"
+            android:onClick="Challenge"/>
 
         <Button
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_below="@id/gameStatus"
             android:layout_toRightOf="@id/challenge"
-            android:text="Restart"/>
+            android:text="@string/restart"
+            android:onClick="Restart"/>
 
 
     </RelativeLayout>

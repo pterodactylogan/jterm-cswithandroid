@@ -17,8 +17,11 @@ package com.google.engedu.ghost;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,20 +48,40 @@ public class GhostActivity extends AppCompatActivity {
     private Random random = new Random();
     private String currentWord = "";
 
+    private boolean won = false;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        TextView label = (TextView) findViewById(R.id.gameStatus);
+        super.onSaveInstanceState(outState);
+        outState.putString("key_currWord", currentWord);
+        outState.putString("key_status", label.getText().toString());
+        outState.putBoolean("key_won", won);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghost);
+        if(savedInstanceState!=null){
+            currentWord = savedInstanceState.getString("key_currWord");
+            String message = savedInstanceState.getString("key_status");
+            TextView label = (TextView) findViewById(R.id.gameStatus);
+            won = savedInstanceState.getBoolean("key_won");
+            TextView ghostText = (TextView) findViewById(R.id.ghostText);
+            label.setText(message);
+            ghostText.setText(currentWord);
+        }
         AssetManager assetManager = getAssets();
         try {
             InputStream inputStream = assetManager.open("words.txt");
-            dictionary = new SimpleDictionary(InputStream);
+            dictionary = new SimpleDictionary(inputStream);
             // Initialize your dictionary from the InputStream.
         } catch (IOException e) {
             Toast toast = Toast.makeText(this, "Could not load dictionary", Toast.LENGTH_LONG);
             toast.show();
         }
-        onStart(null);
+        if(savedInstanceState==null) onStart(null);
     }
 
     @Override
@@ -90,7 +113,20 @@ public class GhostActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return super.onKeyUp(keyCode, event);
+        if(won) return super.onKeyUp(keyCode,event);
+        int key = event.getUnicodeChar();
+        //Log.d("key pressed", Character.toString((char)key));
+        if(key<65 || (key>90 && key<97) || key>122){
+            return super.onKeyUp(keyCode, event);
+        }else{
+            currentWord+= Character.toString((char)key);
+            //update veiw
+            TextView ghostText = (TextView) findViewById(R.id.ghostText);
+            ghostText.setText(currentWord);
+            //computer turn
+            computerTurn();
+            return super.onKeyUp(keyCode, event);
+        }
     }
 
     /**
@@ -100,6 +136,61 @@ public class GhostActivity extends AppCompatActivity {
      * @return true
      */
     public boolean onStart(View view) {
+        Restart();
+        return true;
+    }
+
+    private void computerTurn() {
+        if(won) return;
+        TextView label = (TextView) findViewById(R.id.gameStatus);
+        // Do computer turn stuff then make it the user's turn again
+        if(currentWord.length()>=4 && dictionary.isWord(currentWord)) {
+            label.setText("You have created a word, the computer wins.");
+            won=true;
+            return;
+        }else{
+            String word = dictionary.getAnyWordStartingWith(currentWord);
+            if(word==null){
+                label.setText("There are no valid words beginning with that fragment, the computer wins");
+                won=true;
+                return;
+            }else{
+                String letter = word.substring(currentWord.length(),currentWord.length()+1);
+                currentWord+=letter;
+                TextView ghostText = (TextView) findViewById(R.id.ghostText);
+                ghostText.setText(currentWord);
+            }
+        }
+        userTurn = true;
+        label.setText(USER_TURN);
+    }
+
+    public void Challenge(View view){
+        if(won) return;
+        TextView label = (TextView) findViewById(R.id.gameStatus);
+        TextView ghostText = (TextView) findViewById(R.id.ghostText);
+        if(currentWord.length()>=4 && dictionary.isWord(currentWord)){
+            label.setText("The computer has completed a word, you win!");
+            won=true;
+        }else if(dictionary.getAnyWordStartingWith(currentWord)==null) {
+            label.setText("This is not a valid prefix, you win!");
+            won=true;
+        }else{
+            String word = dictionary.getAnyWordStartingWith(currentWord);
+            label.setText("This is a valid prefix, the computer wins.");
+            won=true;
+            ghostText.setText(word);
+        }
+    }
+
+    public void Restart(View view){
+        Restart();
+        //return;
+    }
+
+    public void Restart(){
+        won=false;
+        currentWord="";
         userTurn = random.nextBoolean();
         TextView text = (TextView) findViewById(R.id.ghostText);
         text.setText("");
@@ -110,13 +201,5 @@ public class GhostActivity extends AppCompatActivity {
             label.setText(COMPUTER_TURN);
             computerTurn();
         }
-        return true;
-    }
-
-    private void computerTurn() {
-        TextView label = (TextView) findViewById(R.id.gameStatus);
-        // Do computer turn stuff then make it the user's turn again
-        userTurn = true;
-        label.setText(USER_TURN);
     }
 }

@@ -99,21 +99,27 @@ public class MainActivity extends AppCompatActivity {
         if (currRoll == 1) {
             ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice1));
+            dieImage.setContentDescription("one");
         } else if (currRoll == 2) {
             ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice2));
+            dieImage.setContentDescription("two");
         } else if (currRoll == 3) {
             ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice3));
+            dieImage.setContentDescription("three");
         } else if (currRoll == 4) {
             ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice4));
+            dieImage.setContentDescription("four");
         } else if (currRoll == 5) {
             ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice5));
+            dieImage.setContentDescription("five");
         } else {
             ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice6));
+            dieImage.setContentDescription("six");
         }
     }
 

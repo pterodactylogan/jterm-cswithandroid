@@ -24,6 +24,7 @@
         android:layout_below="@id/scoreText"
         android:paddingTop="15dp"
         android:id="@+id/dieImage"
+        android:contentDescription="one"
         />
 
     <LinearLayout
