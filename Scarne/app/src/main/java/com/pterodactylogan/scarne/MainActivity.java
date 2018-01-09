@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     public int userTurnScore = 0;
     public int compOverallScore = 0;
     public int compTurnScore = 0;
-    public int currRoll = 0;
+    public int currRoll1 = 0;
+    public int currRoll2 = 0;
     Random rand = new Random();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         userOverallScore = 0;
         compOverallScore = 0;
         compTurnScore = 0;
-        currRoll = 0;
+        currRoll1 = 0;
+        currRoll2 = 0;
         comp=false;
         handler.removeCallbacks(compTurn);
         scoreDisplay("your");
@@ -64,14 +66,14 @@ public class MainActivity extends AppCompatActivity {
 
         //Log.d("roll test", "rolled");
         RollDisplay();
-        if (currRoll == 1) {
+        /*if (currRoll == 1) {
             userTurnScore = 0;
             scoreDisplay("the computer's");
             computerTurn();
         } else {
             userTurnScore += currRoll;
             scoreDisplay("your");
-        }
+        }*/
     }
 
     public void Hold(View view) {
@@ -95,29 +97,55 @@ public class MainActivity extends AppCompatActivity {
 
     //this function sets currRoll to a num btwn 1-6 and changes the image accordingly
     public void RollDisplay() {
-        currRoll = rand.nextInt(6) + 1;
-        if (currRoll == 1) {
-            ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
+        currRoll1 = rand.nextInt(6) + 1;
+        currRoll2 = rand.nextInt(6)+1;
+        if (currRoll1 == 1) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage1);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice1));
             dieImage.setContentDescription("one");
-        } else if (currRoll == 2) {
-            ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
+        } else if (currRoll1 == 2) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage1);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice2));
             dieImage.setContentDescription("two");
-        } else if (currRoll == 3) {
-            ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
+        } else if (currRoll1 == 3) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage1);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice3));
             dieImage.setContentDescription("three");
-        } else if (currRoll == 4) {
-            ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
+        } else if (currRoll1 == 4) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage1);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice4));
             dieImage.setContentDescription("four");
-        } else if (currRoll == 5) {
-            ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
+        } else if (currRoll1 == 5) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage1);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice5));
             dieImage.setContentDescription("five");
         } else {
-            ImageView dieImage = (ImageView) findViewById(R.id.dieImage);
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage1);
+            dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice6));
+            dieImage.setContentDescription("six");
+        }
+        if (currRoll2 == 1) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage2);
+            dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice1));
+            dieImage.setContentDescription("one");
+        } else if (currRoll2 == 2) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage2);
+            dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice2));
+            dieImage.setContentDescription("two");
+        } else if (currRoll2 == 3) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage2);
+            dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice3));
+            dieImage.setContentDescription("three");
+        } else if (currRoll2 == 4) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage2);
+            dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice4));
+            dieImage.setContentDescription("four");
+        } else if (currRoll2 == 5) {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage2);
+            dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice5));
+            dieImage.setContentDescription("five");
+        } else {
+            ImageView dieImage = (ImageView) findViewById(R.id.dieImage2);
             dieImage.setImageDrawable(getResources().getDrawable(R.drawable.dice6));
             dieImage.setContentDescription("six");
         }
@@ -159,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 //roll the die
                 RollDisplay();
-                if (currRoll == 1) {
+                /*if (currRoll == 1) {
                     compTurnScore = 0;
                     //players turn
                     scoreDisplay("your");
@@ -169,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     scoreDisplay("the computer's");
                     //keep rolling
                     handler.postDelayed(this, 1000);
-                }
+                }*/
             }
         }
     };
